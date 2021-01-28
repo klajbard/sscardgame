@@ -10,18 +10,20 @@ export default function CardGame({cardNumber, gameStore = {}, onDone, done}) {
   const prevCardId = useRef();
   
   useEffect(() => {
-    const newCards = [];
-    let pair = cardNumber;
-    while (pair) {
-      newCards.push({id: 2*pair, colorId: pair});
-      newCards.push({id: 2*pair-1, colorId: pair});
-      pair--;
+    if (!done) {
+      const newCards = [];
+      let pair = cardNumber;
+      while (pair) {
+        newCards.push({id: 2*pair, colorId: pair});
+        newCards.push({id: 2*pair-1, colorId: pair});
+        pair--;
+      }
+      const sortedCards = newCards.sort(() => {return Math.random() - Math.random()})
+      setFlipped(0)
+      setCards(sortedCards)
+      setRevertCards(sortedCards)
     }
-    const sortedCards = newCards.sort(() => {return Math.random() - Math.random()})
-    setFlipped(0)
-    setCards(sortedCards)
-    setRevertCards(sortedCards)
-  }, [cardNumber])
+  }, [done, cardNumber])
 
   useEffect(() => {
     if (revert) {
@@ -36,13 +38,24 @@ export default function CardGame({cardNumber, gameStore = {}, onDone, done}) {
   }, [revert])
 
   function handleCardClick({id, colorId}) {
+    let dontCountFlip = false;
+    let isDone = true;
     const newCards = cards.map((card) => {
       const newCard = {...card}
       if (id === newCard.id) {
+        if (newCard.flip) {
+          dontCountFlip = true
+        }
         newCard.flip = true;
+      }
+      if (!newCard.flip) {
+        isDone = false
       }
       return newCard
     })
+    if (dontCountFlip) {
+      return;
+    }
     if (flipped%2) {
       const isMatch = prevCardId.current && colorId === prevCardId.current.colorId
       if (isMatch) {
@@ -54,6 +67,9 @@ export default function CardGame({cardNumber, gameStore = {}, onDone, done}) {
     setCards(newCards)
     setFlipped(flipped+1)
     prevCardId.current = {id, colorId};
+    if (isDone) {
+      onDone(Math.floor((flipped+1)/2))
+    }
   }
 
   return(
