@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react"
 import Card from "../Card/Card";
+import Score from "../Score/Score";
 
-export default function CardGame({cardNumber}) {
+export default function CardGame({cardNumber, gameStore = {}, onDone, done}) {
   const [cards, setCards] = useState([]);
   const [revertCards, setRevertCards] = useState([]);
   const [flipped, setFlipped] = useState([]);
@@ -35,8 +36,6 @@ export default function CardGame({cardNumber}) {
   }, [revert])
 
   function handleCardClick({id, colorId}) {
-    console.log(id)
-    console.log(colorId)
     const newCards = cards.map((card) => {
       const newCard = {...card}
       if (id === newCard.id) {
@@ -57,12 +56,10 @@ export default function CardGame({cardNumber}) {
     prevCardId.current = {id, colorId};
   }
 
-  console.log(cards)
-
   return(
     <div>
-      {Math.floor(flipped/2)}
-      {cards.map((cardConfig, idx) => <Card key={idx} {...cardConfig} onClick={revert ? null : handleCardClick}/>)}
+      <Score>{Math.floor(flipped/2)}</Score>
+      {cards.map((cardConfig, idx) => <Card key={idx} {...cardConfig} onClick={revert || done? null : handleCardClick}/>)}
     </div>
   )
 }
