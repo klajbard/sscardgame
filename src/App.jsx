@@ -41,7 +41,7 @@ export default function App() {
       {!isDone || gameStore? (
         <>
           <button onClick={handleReset}>Go Back</button>
-          <CardGame cardNumber={cardNumber} onDone={handleDone} done={isDone} gameStore={gameStore}/>
+          <CardGame cardNumber={cardNumber} onDone={handleDone} done={isDone && !gameStore} gameStore={gameStore}/>
         </>
       ) : (
         <div>

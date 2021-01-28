@@ -1,8 +1,8 @@
 .container {
-	perspective: 1000px;
+	perspective: 100rem;
 
 	&.flip .wrapper {
-		transform: translateY(24rem) rotateX(180deg);
+		transform: translateY(16rem) rotateX(180deg);
 	}
 }
 
@@ -17,25 +17,32 @@
 .container, .back, .front {
 	display: inline-block;
 	width: 16rem;
-	height: 24rem;
+	height: 16rem;
 }
 
 .back, .front {
+	box-sizing: border-box;
 	position: absolute;
 	top: 0;
 	left: 0;
-  border: 1px solid #000;
   border-radius: 1rem;
 	backface-visibility: hidden;
+	background-color: #fff;
+	box-shadow: 0px 0px 4px #666;
 }
 
 .back {
 	z-index: 1;
   transform: rotateX(0deg);
-  background-color: #444;
-  color: #fff;
 }
 
 .front {
 	transform: rotateX(180deg);
+	display: flex;
+	padding: 2rem;
+}
+
+.image {
+	margin: auto;
+	width: 100%;
 }

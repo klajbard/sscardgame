@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react"
 import Card from "../Card/Card";
 import Score from "../Score/Score";
+import styles from "./CardGame.less"
 
 export default function CardGame({cardNumber, gameStore = {}, onDone, done}) {
   const [cards, setCards] = useState(gameStore && gameStore.cards ? gameStore.cards : []);
   const [revertCards, setRevertCards] = useState(gameStore && gameStore.cards ? gameStore.cards : []);
-  const [flipped, setFlipped] = useState(gameStore && gameStore.flipped ? gameStore.flipped : []);
+  const [flipped, setFlipped] = useState(gameStore && gameStore.flipped ? gameStore.flipped : 0);
   const [revert, setRevert] = useState(false);
   const prevCardId = useRef();
   
@@ -79,7 +80,9 @@ export default function CardGame({cardNumber, gameStore = {}, onDone, done}) {
   return(
     <div>
       <Score>{Math.floor(flipped/2)}</Score>
-      {cards.map((cardConfig, idx) => <Card key={idx} {...cardConfig} onClick={revert || done? null : handleCardClick}/>)}
+      <div className={styles.cardWrapper}>
+        {cards.map((cardConfig, idx) => <Card key={idx} {...cardConfig} onClick={revert || done? null : handleCardClick}/>)}
+      </div>
     </div>
   )
 }

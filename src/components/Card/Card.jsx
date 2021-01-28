@@ -2,16 +2,15 @@ import React, { useRef } from 'react';
 import styles from './Card.less';
 
 const colorSeq = [
-  "#ff0000",
-  "#ffa500",
-  "#ffff00",
-  "#008000",
-  "#00ff00",
-  "#0000ff",
-  "#000080",
-  "#2a0042",
-  "#4b0082",
-  "#ee82ee",
+  "angular",
+  "jenkins",
+  "react",
+  "sass",
+  "webpack",
+  "d3",
+  "postcss",
+  "redux",
+  "ts",
 ]
 
 export default function Card({colorId, id, onClick, flip}) {
@@ -25,7 +24,9 @@ export default function Card({colorId, id, onClick, flip}) {
   return <div className={[styles.container, flip && styles.flip].join(" ")} onClick={handleClick}>
     <div className={styles.wrapper}>
       <div className={styles.back}></div>
-      <div className={styles.front} style={{backgroundColor: colorSeq[colorId]}}></div>
+      <div className={styles.front}>
+        <img className={styles.image} src={`./cards/${colorSeq[colorId]}.png`} alt={colorSeq[colorId]}/>
+      </div>
     </div>
   </div>
 }

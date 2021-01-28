@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
@@ -18,6 +19,13 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.(png|gif|ttf)$/,
+        options: {
+          name: '[name].[ext]',
+        },
+        loader: 'file-loader',
       },
       {
         test: /\.less$/,
@@ -44,6 +52,14 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html"
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: '{,!(logo)/**/}*',
+          context: path.resolve(__dirname, 'src', 'assets'),
+        },
+      ],
     }),
   ],
   output: {
