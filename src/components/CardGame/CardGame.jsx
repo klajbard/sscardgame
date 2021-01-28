@@ -3,14 +3,14 @@ import Card from "../Card/Card";
 import Score from "../Score/Score";
 
 export default function CardGame({cardNumber, gameStore = {}, onDone, done}) {
-  const [cards, setCards] = useState([]);
-  const [revertCards, setRevertCards] = useState([]);
-  const [flipped, setFlipped] = useState([]);
+  const [cards, setCards] = useState(gameStore && gameStore.cards ? gameStore.cards : []);
+  const [revertCards, setRevertCards] = useState(gameStore && gameStore.cards ? gameStore.cards : []);
+  const [flipped, setFlipped] = useState(gameStore && gameStore.flipped ? gameStore.flipped : []);
   const [revert, setRevert] = useState(false);
   const prevCardId = useRef();
   
   useEffect(() => {
-    if (!done) {
+    if (!done && !gameStore) {
       const newCards = [];
       let pair = cardNumber;
       while (pair) {
@@ -24,6 +24,10 @@ export default function CardGame({cardNumber, gameStore = {}, onDone, done}) {
       setRevertCards(sortedCards)
     }
   }, [done, cardNumber])
+
+  useEffect(() => {
+    localStorage.setItem('cardgame', JSON.stringify({cards: revertCards, flipped: flipped}))
+  }, [revertCards])
 
   useEffect(() => {
     if (revert) {
