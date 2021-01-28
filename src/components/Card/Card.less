@@ -1,0 +1,41 @@
+.container {
+	perspective: 1000px;
+
+	&.flip .wrapper {
+		transform: translateY(24rem) rotateX(180deg);
+	}
+}
+
+.wrapper {
+  display: block;
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+.container, .back, .front {
+	display: inline-block;
+	width: 16rem;
+	height: 24rem;
+}
+
+.back, .front {
+	position: absolute;
+	top: 0;
+	left: 0;
+  border: 1px solid #000;
+  border-radius: 1rem;
+	backface-visibility: hidden;
+}
+
+.back {
+	z-index: 1;
+  transform: rotateX(0deg);
+  background-color: #444;
+  color: #fff;
+}
+
+.front {
+	transform: rotateX(180deg);
+}
