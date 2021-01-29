@@ -4,7 +4,8 @@ import styles from "./Welcome.less"
 export default function Welcome(){
   return (
     <div>
-      <h2>Welcome to the card-matching game!</h2>
+      <h1 className={styles.title}>SnapsSoft</h1>
+      <h2 className={styles.subTitle}>Memory game</h2>
       <ol>
         <li>Present the user with an even number of cards, „face down”</li>
         <li>When the user clicks a card, „flip it over” and reveal the hidden image</li>

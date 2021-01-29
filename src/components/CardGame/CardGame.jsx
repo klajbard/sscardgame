@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react"
+import Button from "../Button/Button";
 import Card from "../Card/Card";
-import Score from "../Score/Score";
 import styles from "./CardGame.less"
 
-export default function CardGame({cardNumber, gameStore = {}, onDone, done}) {
+export default function CardGame({cardNumber, gameStore = {}, onDone, done, onReset}) {
   const [cards, setCards] = useState(gameStore && gameStore.cards ? gameStore.cards : []);
   const [revertCards, setRevertCards] = useState(gameStore && gameStore.cards ? gameStore.cards : []);
   const [flipped, setFlipped] = useState(gameStore && gameStore.flipped ? gameStore.flipped : 0);
@@ -79,7 +79,17 @@ export default function CardGame({cardNumber, gameStore = {}, onDone, done}) {
 
   return(
     <div>
-      <Score>{Math.floor(flipped/2)}</Score>
+      <div className={styles.header}>
+        <div>
+          Current tries: {Math.floor(flipped/2)}
+        </div>
+        <div>
+          Best: 
+        </div>
+        <div>
+          <Button ghost onClick={onReset}>Restart</Button>
+        </div>
+      </div>
       <div className={styles.cardWrapper}>
         {cards.map((cardConfig, idx) => <Card key={idx} {...cardConfig} onClick={revert || done? null : handleCardClick}/>)}
       </div>
